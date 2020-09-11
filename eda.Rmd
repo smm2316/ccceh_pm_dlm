@@ -1,0 +1,169 @@
+---
+title: "eda"
+author: "Misbath Daouda"
+date: "5/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(forcats)
+```
+
+
+```{r}
+data = readRDS("./data/misbath_05072020.rds") 
+
+colnames(data) = sub("Years", "", colnames(data))
+
+data = data %>% 
+  janitor::clean_names() 
+
+#BRQ questionnaire 
+brq_df = data %>% 
+  select(sid, starts_with("brq"))
+
+#ISAAC questionnaire
+icw_df = data %>% 
+  select(sid, starts_with("icw"))
+
+#Additional wheezing, runny eyes/nose
+other_df = data %>% 
+  select(sid, starts_with("o"))
+
+#names(data)
+
+```
+
+The sample size is n = 845
+
+### BRQ 
+
+```{r brq}
+
+#str(brq_df)
+
+na_brq = brq_df %>%
+    mutate_if(is.numeric, as.factor) %>%
+    pivot_longer(everything(), names_to = "outcome", values_to = "value") %>%
+    mutate(is.missing = is.na(value)) %>%
+    group_by(outcome, is.missing) %>%
+    summarise(num.missing = n()) %>%
+    filter(is.missing==T) %>%
+    select(-is.missing) %>%
+    arrange(desc(num.missing)) %>% 
+    ungroup() %>% 
+    mutate(age = substring(outcome, regexpr("_", outcome) + 1)) 
+
+na_brq_plot = na_brq %>% 
+  mutate(outcome = forcats::fct_reorder(outcome, num.missing),
+         age = forcats::fct_inseq(age)) %>%
+  ggplot() +
+    geom_bar(aes(x=outcome, y=num.missing, fill = age), stat = "identity") +
+    labs(x='Outcome', y="Number of missing values", 
+         title='Number of missing values in BRQ questionnaire') +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  scale_fill_viridis_d() + 
+  coord_flip()
+
+na_brq_avg = na_brq %>% 
+  group_by(age) %>% 
+  summarize(avg = mean(num.missing)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg))
+
+na_brq_avg_df = na_brq_avg %>%
+  knitr::kable(digits = 0)
+  
+na_brq_avg_plot = na_brq_avg %>% 
+  mutate(age = fct_inseq(age)) %>%
+  ggplot() +
+    geom_bar(aes(x=age, y=avg), stat = "identity") +
+    labs(x='Age', y="Average number of missing values", 
+         title='Average number of missing values by age category in BRQ questionnaire') +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  scale_fill_viridis_d() 
+
+
+```
+
+```{r}
+na_brq_plot
+```
+
+I realize the y-axis is not readable, but this I thought would highlight general patterns in missingness. 
+
+```{r}
+na_brq_avg_plot
+```
+
+Average number of missing values by age group 
+```{r}
+na_brq_avg_df
+```
+
+### ISAAC 
+
+```{r}
+
+na_icw = icw_df %>%
+    mutate_if(is.numeric, as.factor) %>%
+    pivot_longer(everything(), names_to = "outcome", values_to = "value") %>%
+    mutate(is.missing = is.na(value)) %>%
+    group_by(outcome, is.missing) %>%
+    summarise(num.missing = n()) %>%
+    filter(is.missing==T) %>%
+    select(-is.missing) %>%
+    arrange(desc(num.missing)) %>% 
+    ungroup() %>% 
+    mutate(age = substring(outcome, regexpr("_", outcome) + 1)) 
+
+na_icw_plot = na_icw %>% 
+  mutate(outcome = forcats::fct_reorder(outcome, num.missing),
+         age = forcats::fct_inseq(age)) %>%
+  ggplot() +
+    geom_bar(aes(x=outcome, y=num.missing, fill = age), stat = "identity") +
+    labs(x='Outcome', y="Number of missing values", 
+         title='Number of missing values in ICW questionnaire') +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  scale_fill_viridis_d() + 
+  coord_flip()
+
+na_icw_avg = na_icw %>% 
+  group_by(age) %>% 
+  summarize(avg = mean(num.missing)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg))
+
+na_icw_avg_df = na_icw_avg %>%
+  knitr::kable(digits = 0)
+  
+na_icw_avg_plot = na_icw_avg %>% 
+  mutate(age = fct_inseq(age)) %>%
+  ggplot() +
+    geom_bar(aes(x=age, y=avg), stat = "identity") +
+    labs(x='Age', y="Average number of missing values", 
+         title='Average number of missing values by age category in ICW questionnaire') +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  scale_fill_viridis_d() 
+
+```
+
+```{r}
+na_icw_plot
+```
+
+I realize the y-axis is not readable, but this I thought would highlight general patterns in missingness.
+
+```{r}
+na_icw_avg_plot
+```
+
+Average number of missing values by age group 
+
+```{r}
+na_icw_avg_df
+```
+
