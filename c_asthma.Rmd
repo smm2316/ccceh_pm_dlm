@@ -1,0 +1,33 @@
+---
+title: "c_asthma_eda"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(tidyverse)
+```
+
+```{r}
+data = readRDS("./data/misbath_05072020.rds") 
+
+
+select_data = data %>%
+  select(C_ASTHMA, newgendr)%>%
+  mutate(gendr = as.factor(newgendr))
+
+select_data %>%
+  group_by(gendr, C_ASTHMA) %>%
+  summarize(n =n()) %>%
+  pivot_wider(names_from = C_ASTHMA, values_from = n) %>%
+  knitr::kable()
+
+
+ggplot (select_data, aes(x=C_ASTHMA, fill = gendr)) +
+  geom_bar(position = "dodge")
+
+###unknown which genders 1 and 2 correspond to 
+
+```
+
