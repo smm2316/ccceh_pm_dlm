@@ -1,15 +1,33 @@
 ---
 title: "c_asthma_eda"
+author: Sarah McLarnan
+date: 09.29.2020
 output: html_document
 ---
 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(dplyr)
 library(tidyverse)
+library(viridis)
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+theme_set(theme_bw() + theme(legend.position = "bottom"))
 ```
 
-```{r}
+```
+
+```{r gender}
 data = readRDS("./data/misbath_05072020.rds") 
 
 
@@ -30,4 +48,71 @@ ggplot (select_data, aes(x=C_ASTHMA, fill = gendr)) +
 ###unknown which genders 1 and 2 correspond to 
 
 ```
+
+```{r covariates}
+prenatal_sub = 
+  data %>% 
+  select(SID, C_ASTHMA, A18_0, B04_0, E10_0, E01_0, A11_0, A12_0, A13_0, A14_0, A15_0, A04_0)
+  
+prenatal_sub = 
+  prenatal_sub %>%
+  drop_na(C_ASTHMA)
+  
+
+prenatal_sub %>%
+  group_by(A18_0, C_ASTHMA) %>%
+  summarize(perc = ((n()/298))*100) %>%
+  pivot_wider(names_from = A18_0, values_from = perc) %>%
+  knitr::kable()
+  
+prenatal_sub %>%
+  group_by(E10_0, C_ASTHMA) %>%
+  summarize(perc = ((n()/298))*100) %>%
+  pivot_wider(names_from = E10_0, values_from = perc) %>%
+  knitr::kable()
+  
+  
+prenatal_sub %>%
+  group_by(E01_0, C_ASTHMA) %>%
+  summarize(perc = ((n()/298))*100) %>%
+  pivot_wider(names_from = E01_0, values_from = perc) %>%
+  knitr::kable()
+  
+prenatal_sub %>%
+  group_by(A11_0, C_ASTHMA) %>%
+  summarize(perc = ((n()/298))*100) %>%
+  pivot_wider(names_from = A11_0, values_from = perc) %>%
+  knitr::kable()
+  
+prenatal_sub %>%
+  group_by(A12_0, C_ASTHMA) %>%
+  summarize(perc = ((n()/298))*100) %>%
+  pivot_wider(names_from = A12_0, values_from = perc) %>%
+  knitr::kable()
+  
+prenatal_sub %>%
+  group_by(A13_0, C_ASTHMA) %>%
+  summarize(perc = ((n()/298))*100) %>%
+  pivot_wider(names_from = A13_0, values_from = perc) %>%
+  knitr::kable()
+  
+prenatal_sub %>%
+  group_by(A14_0, C_ASTHMA) %>%
+  summarize(perc = ((n()/298))*100) %>%
+  pivot_wider(names_from = A14_0, values_from = perc) %>%
+  knitr::kable()
+
+prenatal_sub %>%
+  group_by(A15_0, C_ASTHMA) %>%
+  summarize(perc = ((n()/298))*100) %>%
+  pivot_wider(names_from = A15_0, values_from = perc) %>%
+  knitr::kable()
+  
+prenatal_sub %>%
+  group_by(A04_0, C_ASTHMA) %>%
+  summarize(perc = ((n()/298))*100) %>%
+  pivot_wider(names_from = A04_0, values_from = perc) %>%
+  knitr::kable()
+```
+
 
