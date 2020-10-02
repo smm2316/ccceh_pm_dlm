@@ -1,0 +1,61 @@
+---
+title: "weekly_pm"
+author: "Misbath Daouda"
+date: "10/1/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+### Pregnancy duration 
+
+```{r, preg duration}
+
+data = read.csv("./data/20200506_MN_PM25_weekly_data.csv")
+
+data %>% 
+  select(SID, gestfin) %>%
+  psych::describe() %>% 
+  select(n, mean, sd, median, min, max) %>% 
+  knitr::kable(digits = 2)
+
+data %>% 
+  ggplot(aes(x = gestfin)) + 
+  geom_histogram(bins = 30) + 
+  labs(x = "Pregnancy duration (weeks)", y = "Count", title = "")
+
+```
+
+### PM exposure throughout pregnancy 
+
+```{r}
+
+data %>% 
+  select(starts_with("lag")) %>%
+  psych::describe() %>% 
+  select(n, mean, sd, median, min, max) %>% 
+  knitr::kable(digits = 2)
+
+```
+
+```{r}
+
+data %>% 
+  pivot_longer(cols = starts_with("lag"),
+               names_to = "lag", 
+               names_prefix = "lag",
+               values_to = "pm") %>% 
+  group_by(lag) %>% 
+  mutate(avg_pm = mean(pm, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(lag = forcats::fct_inorder(lag, ordered = NA)) %>%
+  #mutate(community_id = forcats::fct_reorder(community_id, daily_avg_pm25))
+  ggplot(aes(x = lag, y = avg_pm)) +
+  geom_point() + 
+  labs(x = "Lag", y = "Avg PM2.5", title = "")
+  
+```
+
