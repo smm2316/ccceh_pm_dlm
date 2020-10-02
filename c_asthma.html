@@ -379,391 +379,197 @@ select_data = data %&gt;%
   select(C_ASTHMA, newgendr)%&gt;%
   mutate(gendr = as.factor(newgendr))
 
-select_data %&gt;%
-  group_by(gendr, C_ASTHMA) %&gt;%
-  summarize(n =n()) %&gt;%
-  pivot_wider(names_from = C_ASTHMA, values_from = n) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;gendr&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">gendr</th>
-<th align="right">Yes</th>
-<th align="right">No</th>
-<th align="right">Possible</th>
-<th align="right">NA</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="right">67</td>
-<td align="right">76</td>
-<td align="right">6</td>
-<td align="right">227</td>
-</tr>
-<tr class="even">
-<td align="left">2</td>
-<td align="right">74</td>
-<td align="right">73</td>
-<td align="right">2</td>
-<td align="right">202</td>
-</tr>
-<tr class="odd">
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">118</td>
-</tr>
-</tbody>
-</table>
+
+t.gendr = table(select_data$C_ASTHMA, select_data$gendr)
+t.gendr = t.gendr[-3,]
+t.gendr</code></pre>
+<pre><code>##      
+##        1  2
+##   Yes 67 74
+##   No  76 73</code></pre>
+<pre class="r"><code>chisq.test(t.gendr)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.gendr
+## X-squared = 0.22704, df = 1, p-value = 0.6337</code></pre>
 <pre class="r"><code>ggplot (select_data, aes(x=C_ASTHMA, fill = gendr)) +
   geom_bar(position = &quot;dodge&quot;)</code></pre>
 <p><img src="data:image/png;base64,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KBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBQyAUZ/21CNRbw0118AAKBRudJQFDIBRn/bUI1FvDTXXwAAoFG50lAUMgFGf9tQjUW8NNdfAACgUbnSUBe4D8MX7i7U3Pl599uzD24vFOx+9eNnqr9ulCg36tKceiXqrrqwKBkChcKOjLHAfgMe39wZgswbnY3Bw2eqv26UKDfq0px6JequurAoGQKFwo6MscB+ATxffvPjk3uLWR8+f3Fncenj5stVft0sVGvRpTz0S9VZdWRUMgELhRkdZ4D4A9xbv7T5+fHvzc8DrP7182eqv26UKDfq0px6JequurAoGQKFwo6Ms8B6AZ3f2buwfbH4aeLA3CpvLVn/hLlVo0Kc99UjUW3VlVTAACoUbHWWB9wB88f6t//D9xeLP14/73lv8YP0vD+4WOr9s9RfuUoUGfdpTj0S9VVdWBQOgULjRURZ4D8D2MeDVTf/up4HHt7cPAvzB1ie1ulShQZ/21CNRb9WVhdlEhRsdZYH3AHy6WLz78Pk/fbhY3vYzAAORqLeG0wWjiQo3OsoC7wHY3u2/eix4bwAuPxGUu4Cikai36sqq4C4ghcKNjrIg6pXAny5uPbziJ4DdZau/YJcqNOjTnnok6q26sioYAIXCjY6yIGoAVt/0MwADkai36sqqYAAUCjc6yoK4AVje5vMsoHFI1Ft1ZVUwAAqFGx1lgfMAPLuzf5u/ff4/rwPoj0S9VVdWBQOgULjRURZ4/wRw7/yb/fMh4JXA45Cot+rKqmAAFAo3OsqCgNcBvPvw+ZPvr9/+ZzkDb/JeQGOQqLfqyqpgABQKNzrKAvfHAB5s3gx0/VLgJ7wb6Cgk6q26sioYAIXCjY6ywP9B4Cd/sVi8/u7mW/4nHy5v/9+5/P0/AxCPRL1VV1YFA6BQuNFRFvA3ghn1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWcAAGPVpTz0S9dZQcw0MgELhRkdZwAAY9WlPPRL11lBzDQyAQuFGR1nAABj1aU89EvXWUHMNDIBC4UZHWTBqAD6p1aUKDfq0px6JequuLMwmKtzoKAv4CcCoT3vqkai3hppr4CcAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKNjrKAATDq0556JOqtoeYaGACFwo2OsoABMOrTnnok6q2h5hoYAIXCjY6ygAEw6tOeeiTqraHmGhgAhcKN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" width="90%" /></p>
 <pre class="r"><code>###unknown which genders 1 and 2 correspond to </code></pre>
 <pre class="r"><code>prenatal_sub = 
   data %&gt;% 
-  select(SID, C_ASTHMA, A18_0, B04_0, E10_0, E01_0, A11_0, A12_0, A13_0, A14_0, A15_0, A04_0)
+  select(SID, C_ASTHMA, A18_0, B04_0, E10_0, E01_0, A11_0, A12_0, A13_0, A14_0, A15_0, A04_0) %&gt;%
+  mutate(
+    race = as.factor(A18_0),
+    asthma_pregdx = as.factor(B04_0), 
+    smkr_house = as.factor(E10_0),
+    smkr_cur = as.factor(E01_0),
+    aff_food = as.factor(A11_0),
+    aff_stay = as.factor(A12_0),
+    aff_gaselec = as.factor(A13_0),
+    aff_cloth = as.factor(A14_0),
+    aff_med = as.factor(A15_0),
+    high_deg = as.factor(A04_0))
+
+prenatal_sub = 
+ prenatal_sub %&gt;%
+ mutate(
+  race = fct_recode(prenatal_sub$race, dominican = &quot;3&quot;, hispanic = &quot;4&quot;, africanamerican = &quot;5&quot;),
+  asthma_pregdx = fct_recode(prenatal_sub$asthma_pregdx, yes = &quot;1&quot;, no = &quot;2&quot;), 
+  smkr_house = fct_recode(prenatal_sub$smkr_house,yes = &quot;1&quot;, no = &quot;2&quot;, dk = &quot;8&quot;, nr  = &quot;9&quot;), 
+  smkr_cur = fct_recode(prenatal_sub$smkr_cur,yes = &quot;1&quot;, no = &quot;2&quot;, dk = &quot;8&quot;, nr  = &quot;9&quot;), 
+  aff_food = fct_recode(prenatal_sub$aff_food, yes = &quot;1&quot;, no = &quot;2&quot;, dk = &quot;8&quot;, nr  = &quot;9&quot;), 
+  aff_stay = fct_recode(prenatal_sub$aff_stay, yes = &quot;1&quot;, no = &quot;2&quot;, dk = &quot;8&quot;, nr  = &quot;9&quot;),
+  aff_gaselec = fct_recode(prenatal_sub$aff_gaselec, yes = &quot;1&quot;, no = &quot;2&quot;, dk = &quot;8&quot;, nr  = &quot;9&quot;),
+  aff_cloth = fct_recode(prenatal_sub$aff_cloth, yes = &quot;1&quot;, no = &quot;2&quot;, dk = &quot;8&quot;, nr  = &quot;9&quot;),
+  aff_med = fct_recode(prenatal_sub$aff_med, yes = &quot;1&quot;, no = &quot;2&quot;, dk = &quot;8&quot;, nr  = &quot;9&quot;),
+  high_deg = fct_recode(prenatal_sub$high_deg, lesshigh = &quot;1&quot;, somehigh = &quot;2&quot;, high = &quot;3&quot;, ged = &quot;4&quot;, somecol = &quot;5&quot;, col2yr = &quot;6&quot;, col4yr = &quot;7&quot;, grad = &quot;8&quot;)) %&gt;%
+  select(SID, C_ASTHMA, race, asthma_pregdx, smkr_house, smkr_cur, aff_food, aff_stay, aff_gaselec, aff_cloth, aff_med, high_deg)
+    
   
 prenatal_sub = 
-  prenatal_sub %&gt;%
-  drop_na(C_ASTHMA)
+  subset(prenatal_sub, (C_ASTHMA == &quot;Yes&quot; | C_ASTHMA == &quot;No&quot;))
   
-
-prenatal_sub %&gt;%
-  group_by(A18_0, C_ASTHMA) %&gt;%
-  summarize(perc = ((n()/298))*100) %&gt;%
-  pivot_wider(names_from = A18_0, values_from = perc) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;A18_0&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">C_ASTHMA</th>
-<th align="right">3</th>
-<th align="right">5</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Yes</td>
-<td align="right">26.510067</td>
-<td align="right">20.805369</td>
-</tr>
-<tr class="even">
-<td align="left">No</td>
-<td align="right">33.892617</td>
-<td align="right">16.107383</td>
-</tr>
-<tr class="odd">
-<td align="left">Possible</td>
-<td align="right">1.342282</td>
-<td align="right">1.342282</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>prenatal_sub %&gt;%
-  group_by(E10_0, C_ASTHMA) %&gt;%
-  summarize(perc = ((n()/298))*100) %&gt;%
-  pivot_wider(names_from = E10_0, values_from = perc) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;E10_0&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">C_ASTHMA</th>
-<th align="right">1</th>
-<th align="right">2</th>
-<th align="right">NA</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Yes</td>
-<td align="right">19.127517</td>
-<td align="right">27.181208</td>
-<td align="right">1.0067114</td>
-</tr>
-<tr class="even">
-<td align="left">No</td>
-<td align="right">14.093960</td>
-<td align="right">35.234899</td>
-<td align="right">0.6711409</td>
-</tr>
-<tr class="odd">
-<td align="left">Possible</td>
-<td align="right">1.006711</td>
-<td align="right">1.677852</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>prenatal_sub %&gt;%
-  group_by(E01_0, C_ASTHMA) %&gt;%
-  summarize(perc = ((n()/298))*100) %&gt;%
-  pivot_wider(names_from = E01_0, values_from = perc) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;E01_0&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">C_ASTHMA</th>
-<th align="right">1</th>
-<th align="right">2</th>
-<th align="right">NA</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Yes</td>
-<td align="right">1.3422819</td>
-<td align="right">45.973154</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">No</td>
-<td align="right">0.3355705</td>
-<td align="right">49.328859</td>
-<td align="right">0.3355705</td>
-</tr>
-<tr class="odd">
-<td align="left">Possible</td>
-<td align="right">NA</td>
-<td align="right">2.684564</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>prenatal_sub %&gt;%
-  group_by(A11_0, C_ASTHMA) %&gt;%
-  summarize(perc = ((n()/298))*100) %&gt;%
-  pivot_wider(names_from = A11_0, values_from = perc) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;A11_0&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">C_ASTHMA</th>
-<th align="right">1</th>
-<th align="right">2</th>
-<th align="right">NA</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Yes</td>
-<td align="right">10.0671141</td>
-<td align="right">36.912752</td>
-<td align="right">0.3355705</td>
-</tr>
-<tr class="even">
-<td align="left">No</td>
-<td align="right">9.0604027</td>
-<td align="right">40.604027</td>
-<td align="right">0.3355705</td>
-</tr>
-<tr class="odd">
-<td align="left">Possible</td>
-<td align="right">0.3355705</td>
-<td align="right">2.348993</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>prenatal_sub %&gt;%
-  group_by(A12_0, C_ASTHMA) %&gt;%
-  summarize(perc = ((n()/298))*100) %&gt;%
-  pivot_wider(names_from = A12_0, values_from = perc) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;A12_0&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">C_ASTHMA</th>
-<th align="right">1</th>
-<th align="right">2</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Yes</td>
-<td align="right">11.0738255</td>
-<td align="right">36.241611</td>
-</tr>
-<tr class="even">
-<td align="left">No</td>
-<td align="right">10.0671141</td>
-<td align="right">39.932886</td>
-</tr>
-<tr class="odd">
-<td align="left">Possible</td>
-<td align="right">0.3355705</td>
-<td align="right">2.348993</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>prenatal_sub %&gt;%
-  group_by(A13_0, C_ASTHMA) %&gt;%
-  summarize(perc = ((n()/298))*100) %&gt;%
-  pivot_wider(names_from = A13_0, values_from = perc) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;A13_0&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">C_ASTHMA</th>
-<th align="right">1</th>
-<th align="right">2</th>
-<th align="right">NA</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Yes</td>
-<td align="right">4.697987</td>
-<td align="right">41.946309</td>
-<td align="right">0.6711409</td>
-</tr>
-<tr class="even">
-<td align="left">No</td>
-<td align="right">2.013423</td>
-<td align="right">47.986577</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">Possible</td>
-<td align="right">NA</td>
-<td align="right">2.684564</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>prenatal_sub %&gt;%
-  group_by(A14_0, C_ASTHMA) %&gt;%
-  summarize(perc = ((n()/298))*100) %&gt;%
-  pivot_wider(names_from = A14_0, values_from = perc) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;A14_0&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">C_ASTHMA</th>
-<th align="right">1</th>
-<th align="right">2</th>
-<th align="right">NA</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Yes</td>
-<td align="right">16.10738</td>
-<td align="right">30.872483</td>
-<td align="right">0.3355705</td>
-</tr>
-<tr class="even">
-<td align="left">No</td>
-<td align="right">14.09396</td>
-<td align="right">35.570470</td>
-<td align="right">0.3355705</td>
-</tr>
-<tr class="odd">
-<td align="left">Possible</td>
-<td align="right">NA</td>
-<td align="right">2.348993</td>
-<td align="right">0.3355705</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>prenatal_sub %&gt;%
-  group_by(A15_0, C_ASTHMA) %&gt;%
-  summarize(perc = ((n()/298))*100) %&gt;%
-  pivot_wider(names_from = A15_0, values_from = perc) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;A15_0&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">C_ASTHMA</th>
-<th align="right">1</th>
-<th align="right">2</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Yes</td>
-<td align="right">5.3691275</td>
-<td align="right">41.946309</td>
-</tr>
-<tr class="even">
-<td align="left">No</td>
-<td align="right">2.6845638</td>
-<td align="right">47.315436</td>
-</tr>
-<tr class="odd">
-<td align="left">Possible</td>
-<td align="right">0.6711409</td>
-<td align="right">2.013423</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>prenatal_sub %&gt;%
-  group_by(A04_0, C_ASTHMA) %&gt;%
-  summarize(perc = ((n()/298))*100) %&gt;%
-  pivot_wider(names_from = A04_0, values_from = perc) %&gt;%
-  knitr::kable()</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;A04_0&#39; (override with `.groups` argument)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">C_ASTHMA</th>
-<th align="right">1</th>
-<th align="right">2</th>
-<th align="right">3</th>
-<th align="right">4</th>
-<th align="right">5</th>
-<th align="right">6</th>
-<th align="right">7</th>
-<th align="right">NA</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Yes</td>
-<td align="right">2.0134228</td>
-<td align="right">16.7785235</td>
-<td align="right">10.06711</td>
-<td align="right">6.0402685</td>
-<td align="right">7.046980</td>
-<td align="right">3.0201342</td>
-<td align="right">1.006711</td>
-<td align="right">1.342282</td>
-</tr>
-<tr class="even">
-<td align="left">No</td>
-<td align="right">1.6778523</td>
-<td align="right">16.1073826</td>
-<td align="right">13.75839</td>
-<td align="right">5.7046980</td>
-<td align="right">7.382550</td>
-<td align="right">2.3489933</td>
-<td align="right">2.013423</td>
-<td align="right">1.006711</td>
-</tr>
-<tr class="odd">
-<td align="left">Possible</td>
-<td align="right">0.3355705</td>
-<td align="right">0.3355705</td>
-<td align="right">NA</td>
-<td align="right">0.6711409</td>
-<td align="right">1.006711</td>
-<td align="right">0.3355705</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
+  
+t.race = table(prenatal_sub$C_ASTHMA, prenatal_sub$race)
+t.race = t.race[-3,-2]
+t.race </code></pre>
+<pre><code>##      
+##       dominican africanamerican
+##   Yes        79              62
+##   No        101              48</code></pre>
+<pre class="r"><code>chisq.test(t.race)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.race
+## X-squared = 3.7685, df = 1, p-value = 0.05223</code></pre>
+<pre class="r"><code>t.asthma_pregdx = table(prenatal_sub$C_ASTHMA, prenatal_sub$asthma_pregdx)
+t.asthma_pregdx = t.asthma_pregdx[-3,]
+t.asthma_pregdx</code></pre>
+<pre><code>##      
+##       yes  no
+##   Yes  12 128
+##   No   15 134</code></pre>
+<pre class="r"><code>chisq.test(t.asthma_pregdx)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.asthma_pregdx
+## X-squared = 0.054948, df = 1, p-value = 0.8147</code></pre>
+<pre class="r"><code>t.smkr_house = table(prenatal_sub$C_ASTHMA, prenatal_sub$smkr_house)
+t.smkr_house = t.smkr_house[-3,]
+t.smkr_house</code></pre>
+<pre><code>##      
+##       yes  no
+##   Yes  57  81
+##   No   42 105</code></pre>
+<pre class="r"><code>chisq.test(t.smkr_house)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.smkr_house
+## X-squared = 4.5442, df = 1, p-value = 0.03303</code></pre>
+<pre class="r"><code>t.smkr_cur = table(prenatal_sub$C_ASTHMA, prenatal_sub$smkr_cur)
+t.smkr_cur = t.smkr_cur[-3,]
+t.smkr_cur</code></pre>
+<pre><code>##      
+##       yes  no
+##   Yes   4 137
+##   No    1 147</code></pre>
+<pre class="r"><code>chisq.test(t.smkr_cur)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.smkr_cur
+## X-squared = 0.9162, df = 1, p-value = 0.3385</code></pre>
+<pre class="r"><code>t.aff_food = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_food)
+t.aff_food = t.aff_food[-3,]
+t.aff_food</code></pre>
+<pre><code>##      
+##       yes  no
+##   Yes  30 110
+##   No   27 121</code></pre>
+<pre class="r"><code>chisq.test(t.aff_food)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.aff_food
+## X-squared = 0.28107, df = 1, p-value = 0.596</code></pre>
+<pre class="r"><code>t.aff_stay = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_stay)
+t.aff_stay = t.aff_stay[-3,]
+t.aff_stay</code></pre>
+<pre><code>##      
+##       yes  no
+##   Yes  33 108
+##   No   30 119</code></pre>
+<pre class="r"><code>chisq.test(t.aff_stay)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.aff_stay
+## X-squared = 0.28355, df = 1, p-value = 0.5944</code></pre>
+<pre class="r"><code>t.aff_gaselec = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_gaselec)
+t.aff_gaselec = t.aff_gaselec [-3,]
+t.aff_gaselec</code></pre>
+<pre><code>##      
+##       yes  no
+##   Yes  14 125
+##   No    6 143</code></pre>
+<pre class="r"><code>chisq.test(t.aff_gaselec)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.aff_gaselec
+## X-squared = 3.185, df = 1, p-value = 0.07432</code></pre>
+<pre class="r"><code>t.aff_cloth = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_cloth)
+t.aff_cloth = t.aff_cloth [-3,]
+t.aff_cloth</code></pre>
+<pre><code>##      
+##       yes  no
+##   Yes  48  92
+##   No   42 106</code></pre>
+<pre class="r"><code>chisq.test(t.aff_cloth)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.aff_cloth
+## X-squared = 0.90979, df = 1, p-value = 0.3402</code></pre>
+<pre class="r"><code>t.aff_med = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_med)
+t.aff_med = t.aff_med [-3,]
+t.aff_med</code></pre>
+<pre><code>##      
+##       yes  no
+##   Yes  16 125
+##   No    8 141</code></pre>
+<pre class="r"><code>chisq.test(t.aff_med)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  t.aff_med
+## X-squared = 2.6689, df = 1, p-value = 0.1023</code></pre>
+<pre class="r"><code>t.high_deg = table(prenatal_sub$high_deg,prenatal_sub$C_ASTHMA)
+t.high_deg = t.high_deg [-8,-3]
+t.high_deg</code></pre>
+<pre><code>##           
+##            Yes No
+##   lesshigh   6  5
+##   somehigh  50 48
+##   high      30 41
+##   ged       18 17
+##   somecol   21 22
+##   col2yr     9  7
+##   col4yr     3  6</code></pre>
+<pre class="r"><code>chisq.test(t.high_deg)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  t.high_deg
+## X-squared = 2.8544, df = 6, p-value = 0.8269</code></pre>
+<div id="the-only-covariate-statistically-associated-with-c_asthma-is-smoker-in-house" class="section level3">
+<h3>the only covariate statistically associated with C_ASTHMA is smoker in house</h3>
+</div>
 
 
 

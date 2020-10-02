@@ -35,12 +35,12 @@ select_data = data %>%
   select(C_ASTHMA, newgendr)%>%
   mutate(gendr = as.factor(newgendr))
 
-select_data %>%
-  group_by(gendr, C_ASTHMA) %>%
-  summarize(n =n()) %>%
-  pivot_wider(names_from = C_ASTHMA, values_from = n) %>%
-  knitr::kable()
 
+t.gendr = table(select_data$C_ASTHMA, select_data$gendr)
+t.gendr = t.gendr[-3,]
+t.gendr
+
+chisq.test(t.gendr)
 
 ggplot (select_data, aes(x=C_ASTHMA, fill = gendr)) +
   geom_bar(position = "dodge")
@@ -52,67 +52,106 @@ ggplot (select_data, aes(x=C_ASTHMA, fill = gendr)) +
 ```{r covariates}
 prenatal_sub = 
   data %>% 
-  select(SID, C_ASTHMA, A18_0, B04_0, E10_0, E01_0, A11_0, A12_0, A13_0, A14_0, A15_0, A04_0)
+  select(SID, C_ASTHMA, A18_0, B04_0, E10_0, E01_0, A11_0, A12_0, A13_0, A14_0, A15_0, A04_0) %>%
+  mutate(
+    race = as.factor(A18_0),
+    asthma_pregdx = as.factor(B04_0), 
+    smkr_house = as.factor(E10_0),
+    smkr_cur = as.factor(E01_0),
+    aff_food = as.factor(A11_0),
+    aff_stay = as.factor(A12_0),
+    aff_gaselec = as.factor(A13_0),
+    aff_cloth = as.factor(A14_0),
+    aff_med = as.factor(A15_0),
+    high_deg = as.factor(A04_0))
+
+prenatal_sub = 
+ prenatal_sub %>%
+ mutate(
+  race = fct_recode(prenatal_sub$race, dominican = "3", hispanic = "4", africanamerican = "5"),
+  asthma_pregdx = fct_recode(prenatal_sub$asthma_pregdx, yes = "1", no = "2"), 
+  smkr_house = fct_recode(prenatal_sub$smkr_house,yes = "1", no = "2", dk = "8", nr  = "9"), 
+  smkr_cur = fct_recode(prenatal_sub$smkr_cur,yes = "1", no = "2", dk = "8", nr  = "9"), 
+  aff_food = fct_recode(prenatal_sub$aff_food, yes = "1", no = "2", dk = "8", nr  = "9"), 
+  aff_stay = fct_recode(prenatal_sub$aff_stay, yes = "1", no = "2", dk = "8", nr  = "9"),
+  aff_gaselec = fct_recode(prenatal_sub$aff_gaselec, yes = "1", no = "2", dk = "8", nr  = "9"),
+  aff_cloth = fct_recode(prenatal_sub$aff_cloth, yes = "1", no = "2", dk = "8", nr  = "9"),
+  aff_med = fct_recode(prenatal_sub$aff_med, yes = "1", no = "2", dk = "8", nr  = "9"),
+  high_deg = fct_recode(prenatal_sub$high_deg, lesshigh = "1", somehigh = "2", high = "3", ged = "4", somecol = "5", col2yr = "6", col4yr = "7", grad = "8")) %>%
+  select(SID, C_ASTHMA, race, asthma_pregdx, smkr_house, smkr_cur, aff_food, aff_stay, aff_gaselec, aff_cloth, aff_med, high_deg)
+    
   
 prenatal_sub = 
-  prenatal_sub %>%
-  drop_na(C_ASTHMA)
+  subset(prenatal_sub, (C_ASTHMA == "Yes" | C_ASTHMA == "No"))
+  
+  
+t.race = table(prenatal_sub$C_ASTHMA, prenatal_sub$race)
+t.race = t.race[-3,-2]
+t.race 
+
+chisq.test(t.race)
+
+t.asthma_pregdx = table(prenatal_sub$C_ASTHMA, prenatal_sub$asthma_pregdx)
+t.asthma_pregdx = t.asthma_pregdx[-3,]
+t.asthma_pregdx
+
+chisq.test(t.asthma_pregdx)
+  
+  
+t.smkr_house = table(prenatal_sub$C_ASTHMA, prenatal_sub$smkr_house)
+t.smkr_house = t.smkr_house[-3,]
+t.smkr_house
+
+chisq.test(t.smkr_house)
+
+  
+t.smkr_cur = table(prenatal_sub$C_ASTHMA, prenatal_sub$smkr_cur)
+t.smkr_cur = t.smkr_cur[-3,]
+t.smkr_cur
+
+chisq.test(t.smkr_cur)
+
+t.aff_food = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_food)
+t.aff_food = t.aff_food[-3,]
+t.aff_food
+
+chisq.test(t.aff_food)
+
+
+t.aff_stay = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_stay)
+t.aff_stay = t.aff_stay[-3,]
+t.aff_stay
+chisq.test(t.aff_stay)
+
+
+t.aff_gaselec = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_gaselec)
+t.aff_gaselec = t.aff_gaselec [-3,]
+t.aff_gaselec
+
+chisq.test(t.aff_gaselec)
   
 
-prenatal_sub %>%
-  group_by(A18_0, C_ASTHMA) %>%
-  summarize(perc = ((n()/298))*100) %>%
-  pivot_wider(names_from = A18_0, values_from = perc) %>%
-  knitr::kable()
-  
-prenatal_sub %>%
-  group_by(E10_0, C_ASTHMA) %>%
-  summarize(perc = ((n()/298))*100) %>%
-  pivot_wider(names_from = E10_0, values_from = perc) %>%
-  knitr::kable()
-  
-  
-prenatal_sub %>%
-  group_by(E01_0, C_ASTHMA) %>%
-  summarize(perc = ((n()/298))*100) %>%
-  pivot_wider(names_from = E01_0, values_from = perc) %>%
-  knitr::kable()
-  
-prenatal_sub %>%
-  group_by(A11_0, C_ASTHMA) %>%
-  summarize(perc = ((n()/298))*100) %>%
-  pivot_wider(names_from = A11_0, values_from = perc) %>%
-  knitr::kable()
-  
-prenatal_sub %>%
-  group_by(A12_0, C_ASTHMA) %>%
-  summarize(perc = ((n()/298))*100) %>%
-  pivot_wider(names_from = A12_0, values_from = perc) %>%
-  knitr::kable()
-  
-prenatal_sub %>%
-  group_by(A13_0, C_ASTHMA) %>%
-  summarize(perc = ((n()/298))*100) %>%
-  pivot_wider(names_from = A13_0, values_from = perc) %>%
-  knitr::kable()
-  
-prenatal_sub %>%
-  group_by(A14_0, C_ASTHMA) %>%
-  summarize(perc = ((n()/298))*100) %>%
-  pivot_wider(names_from = A14_0, values_from = perc) %>%
-  knitr::kable()
+t.aff_cloth = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_cloth)
+t.aff_cloth = t.aff_cloth [-3,]
+t.aff_cloth
 
-prenatal_sub %>%
-  group_by(A15_0, C_ASTHMA) %>%
-  summarize(perc = ((n()/298))*100) %>%
-  pivot_wider(names_from = A15_0, values_from = perc) %>%
-  knitr::kable()
+chisq.test(t.aff_cloth)
+
   
-prenatal_sub %>%
-  group_by(A04_0, C_ASTHMA) %>%
-  summarize(perc = ((n()/298))*100) %>%
-  pivot_wider(names_from = A04_0, values_from = perc) %>%
-  knitr::kable()
+t.aff_med = table(prenatal_sub$C_ASTHMA, prenatal_sub$aff_med)
+t.aff_med = t.aff_med [-3,]
+t.aff_med
+
+chisq.test(t.aff_med)
+  
+  
+t.high_deg = table(prenatal_sub$high_deg,prenatal_sub$C_ASTHMA)
+t.high_deg = t.high_deg [-8,-3]
+t.high_deg
+
+chisq.test(t.high_deg)
 ```
+
+### the only covariate statistically associated with C_ASTHMA is smoker in house
 
 
