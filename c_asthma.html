@@ -581,58 +581,110 @@ summary(pm_race.aov)</code></pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 509 observations deleted due to missingness</code></pre>
-<pre class="r"><code>pm_pregdx.aov = aov(ave.pm25.preg ~ asthma_pregdx, data = sub_m.data)
-summary(pm_pregdx.aov)</code></pre>
-<pre><code>##                Df Sum Sq Mean Sq F value Pr(&gt;F)
-## asthma_pregdx   1      1   1.004   0.219   0.64
-## Residuals     286   1310   4.581               
-## 510 observations deleted due to missingness</code></pre>
-<pre class="r"><code>pm_smkr_house.aov = aov(ave.pm25.preg ~ smkr_house, data = sub_m.data)
-summary(pm_smkr_house.aov)</code></pre>
-<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
-## smkr_house    1    8.9   8.886   1.928  0.166
-## Residuals   282 1299.4   4.608               
-## 514 observations deleted due to missingness</code></pre>
-<pre class="r"><code>pm_smkr_cur.aov = aov(ave.pm25.preg ~ smkr_cur, data = sub_m.data)
-summary(pm_smkr_cur.aov)</code></pre>
-<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)  
-## smkr_cur      1   12.9  12.877   2.853 0.0923 .
-## Residuals   286 1291.0   4.514                 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 510 observations deleted due to missingness</code></pre>
-<pre class="r"><code>pm_aff_food.aov = aov(ave.pm25.preg ~ aff_food, data = sub_m.data)
-summary(pm_aff_food.aov)</code></pre>
-<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
-## aff_food      1   11.5  11.538   2.552  0.111
-## Residuals   285 1288.6   4.521               
-## 511 observations deleted due to missingness</code></pre>
-<pre class="r"><code>pm_aff_stay.aov = aov(ave.pm25.preg ~ aff_stay, data = sub_m.data)
-summary(pm_aff_stay.aov)</code></pre>
-<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)  
-## aff_stay      1   12.4  12.404   2.737 0.0991 .
-## Residuals   287 1300.7   4.532                 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 509 observations deleted due to missingness</code></pre>
-<pre class="r"><code>pm_aff_gaselec.aov = aov(ave.pm25.preg ~ aff_gaselec, data = sub_m.data)
-summary(pm_aff_gaselec.aov)</code></pre>
-<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
-## aff_gaselec   1    8.3   8.309   1.825  0.178
-## Residuals   285 1297.6   4.553               
-## 511 observations deleted due to missingness</code></pre>
-<pre class="r"><code>pm_aff_cloth.aov = aov(ave.pm25.preg ~ aff_cloth, data = sub_m.data)
-summary(pm_aff_cloth.aov)</code></pre>
-<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
-## aff_cloth     1      6   5.986    1.31  0.253
-## Residuals   285   1303   4.570               
-## 511 observations deleted due to missingness</code></pre>
-<pre class="r"><code>pm_aff_med.aov = aov(ave.pm25.preg ~ aff_med, data = sub_m.data)
-summary(pm_aff_med.aov)</code></pre>
-<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
-## aff_med       1    2.6   2.556    0.56  0.455
-## Residuals   287 1310.5   4.566               
-## 509 observations deleted due to missingness</code></pre>
+<pre class="r"><code>t.pm_pregdx = t.test(ave.pm25.preg ~ asthma_pregdx, data = sub_m.data)
+t.pm_pregdx</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ave.pm25.preg by asthma_pregdx
+## t = -0.46197, df = 31.437, p-value = 0.6473
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1.0962586  0.6911591
+## sample estimates:
+## mean in group yes  mean in group no 
+##          17.16052          17.36307</code></pre>
+<pre class="r"><code>t.pm_smkr_house = t.test(ave.pm25.preg ~ smkr_house, data = sub_m.data)
+t.pm_smkr_house</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ave.pm25.preg by smkr_house
+## t = 1.4177, df = 212.49, p-value = 0.1577
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.1449266  0.8873207
+## sample estimates:
+## mean in group yes  mean in group no 
+##          17.58576          17.21456</code></pre>
+<pre class="r"><code>t.pm_smkr_cur = t.test(ave.pm25.preg ~ smkr_cur, data = sub_m.data)
+t.pm_smkr_cur</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ave.pm25.preg by smkr_cur
+## t = -3.2537, df = 4.5762, p-value = 0.02571
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.934444 -0.303427
+## sample estimates:
+## mean in group yes  mean in group no 
+##          15.73793          17.35686</code></pre>
+<pre class="r"><code>t.pm_aff_food = t.test(ave.pm25.preg ~ aff_food, data = sub_m.data)
+t.pm_aff_food</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ave.pm25.preg by aff_food
+## t = 1.3233, df = 69.877, p-value = 0.1901
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.2566289  1.2685213
+## sample estimates:
+## mean in group yes  mean in group no 
+##          17.74268          17.23674</code></pre>
+<pre class="r"><code>t.pm_aff_stay = t.test(ave.pm25.preg ~ aff_stay, data = sub_m.data)
+t.pm_aff_stay</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ave.pm25.preg by aff_stay
+## t = 1.5235, df = 87.524, p-value = 0.1312
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.1536744  1.1630597
+## sample estimates:
+## mean in group yes  mean in group no 
+##          17.73570          17.23101</code></pre>
+<pre class="r"><code>t.pm_aff_gaselec = t.test(ave.pm25.preg ~ aff_gaselec, data = sub_m.data)
+t.pm_aff_gaselec</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ave.pm25.preg by aff_gaselec
+## t = 1.2961, df = 21.667, p-value = 0.2086
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.4019991  1.7384866
+## sample estimates:
+## mean in group yes  mean in group no 
+##          17.96909          17.30085</code></pre>
+<pre class="r"><code>t.pm_aff_cloth = t.test(ave.pm25.preg ~ aff_cloth, data = sub_m.data)
+t.pm_aff_cloth</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ave.pm25.preg by aff_cloth
+## t = 1.1051, df = 156.35, p-value = 0.2708
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.2458681  0.8703272
+## sample estimates:
+## mean in group yes  mean in group no 
+##          17.56510          17.25287</code></pre>
+<pre class="r"><code>t.pm_aff_med = t.test(ave.pm25.preg ~ aff_med, data = sub_m.data)
+t.pm_aff_med</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ave.pm25.preg by aff_med
+## t = -0.87505, df = 29.423, p-value = 0.3886
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1.1368040  0.4552286
+## sample estimates:
+## mean in group yes  mean in group no 
+##          17.02679          17.36758</code></pre>
 <pre class="r"><code>pm_high_deg.aov = aov(ave.pm25.preg ~ high_deg, data = sub_m.data)
 summary(pm_high_deg.aov)</code></pre>
 <pre><code>##              Df Sum Sq Mean Sq F value   Pr(&gt;F)    
@@ -642,8 +694,8 @@ summary(pm_high_deg.aov)</code></pre>
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 516 observations deleted due to missingness</code></pre>
 </div>
-<div id="the-only-covariates-signficantly-associated-with-average-pregnancy-pm2.5-are-race-and-highest-degree-of-education" class="section level3">
-<h3>the only covariates signficantly associated with average pregnancy PM2.5 are race and highest degree of education</h3>
+<div id="the-only-covariates-signficantly-associated-with-average-pregnancy-pm2.5-are-race-current-smoker-and-highest-degree-of-education" class="section level3">
+<h3>the only covariates signficantly associated with average pregnancy PM2.5 are race, current smoker, and highest degree of education</h3>
 </div>
 
 

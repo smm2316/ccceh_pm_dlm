@@ -162,32 +162,32 @@ sub_m.data = full_join(prenatal_sub, ave.pm25.no2, by = "SID")
 pm_race.aov = aov(ave.pm25.preg ~ race, data = sub_m.data)
 summary(pm_race.aov)
 
-pm_pregdx.aov = aov(ave.pm25.preg ~ asthma_pregdx, data = sub_m.data)
-summary(pm_pregdx.aov)
+t.pm_pregdx = t.test(ave.pm25.preg ~ asthma_pregdx, data = sub_m.data)
+t.pm_pregdx
 
-pm_smkr_house.aov = aov(ave.pm25.preg ~ smkr_house, data = sub_m.data)
-summary(pm_smkr_house.aov)
+t.pm_smkr_house = t.test(ave.pm25.preg ~ smkr_house, data = sub_m.data)
+t.pm_smkr_house
 
-pm_smkr_cur.aov = aov(ave.pm25.preg ~ smkr_cur, data = sub_m.data)
-summary(pm_smkr_cur.aov)
+t.pm_smkr_cur = t.test(ave.pm25.preg ~ smkr_cur, data = sub_m.data)
+t.pm_smkr_cur
 
-pm_aff_food.aov = aov(ave.pm25.preg ~ aff_food, data = sub_m.data)
-summary(pm_aff_food.aov)
+t.pm_aff_food = t.test(ave.pm25.preg ~ aff_food, data = sub_m.data)
+t.pm_aff_food
 
-pm_aff_stay.aov = aov(ave.pm25.preg ~ aff_stay, data = sub_m.data)
-summary(pm_aff_stay.aov)
+t.pm_aff_stay = t.test(ave.pm25.preg ~ aff_stay, data = sub_m.data)
+t.pm_aff_stay
 
-pm_aff_gaselec.aov = aov(ave.pm25.preg ~ aff_gaselec, data = sub_m.data)
-summary(pm_aff_gaselec.aov)
+t.pm_aff_gaselec = t.test(ave.pm25.preg ~ aff_gaselec, data = sub_m.data)
+t.pm_aff_gaselec
 
-pm_aff_cloth.aov = aov(ave.pm25.preg ~ aff_cloth, data = sub_m.data)
-summary(pm_aff_cloth.aov)
+t.pm_aff_cloth = t.test(ave.pm25.preg ~ aff_cloth, data = sub_m.data)
+t.pm_aff_cloth
 
-pm_aff_med.aov = aov(ave.pm25.preg ~ aff_med, data = sub_m.data)
-summary(pm_aff_med.aov)
+t.pm_aff_med = t.test(ave.pm25.preg ~ aff_med, data = sub_m.data)
+t.pm_aff_med
 
 pm_high_deg.aov = aov(ave.pm25.preg ~ high_deg, data = sub_m.data)
 summary(pm_high_deg.aov)
 
 ```
-### the only covariates signficantly associated with average pregnancy PM2.5 are race and highest degree of education 
+### the only covariates signficantly associated with average pregnancy PM2.5 are race, current smoker, and highest degree of education 
