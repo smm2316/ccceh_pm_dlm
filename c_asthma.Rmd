@@ -154,4 +154,40 @@ chisq.test(t.high_deg)
 
 ### the only covariate statistically associated with C_ASTHMA is smoker in house
 
+```{r SES covariates and PM2.5}
+load("~/RESEARCH/Herbstman/ccceh_pm_dlm/data/pm_data.RDATA")
 
+sub_m.data = full_join(prenatal_sub, ave.pm25.no2, by = "SID")
+
+pm_race.aov = aov(ave.pm25.preg ~ race, data = sub_m.data)
+summary(pm_race.aov)
+
+pm_pregdx.aov = aov(ave.pm25.preg ~ asthma_pregdx, data = sub_m.data)
+summary(pm_pregdx.aov)
+
+pm_smkr_house.aov = aov(ave.pm25.preg ~ smkr_house, data = sub_m.data)
+summary(pm_smkr_house.aov)
+
+pm_smkr_cur.aov = aov(ave.pm25.preg ~ smkr_cur, data = sub_m.data)
+summary(pm_smkr_cur.aov)
+
+pm_aff_food.aov = aov(ave.pm25.preg ~ aff_food, data = sub_m.data)
+summary(pm_aff_food.aov)
+
+pm_aff_stay.aov = aov(ave.pm25.preg ~ aff_stay, data = sub_m.data)
+summary(pm_aff_stay.aov)
+
+pm_aff_gaselec.aov = aov(ave.pm25.preg ~ aff_gaselec, data = sub_m.data)
+summary(pm_aff_gaselec.aov)
+
+pm_aff_cloth.aov = aov(ave.pm25.preg ~ aff_cloth, data = sub_m.data)
+summary(pm_aff_cloth.aov)
+
+pm_aff_med.aov = aov(ave.pm25.preg ~ aff_med, data = sub_m.data)
+summary(pm_aff_med.aov)
+
+pm_high_deg.aov = aov(ave.pm25.preg ~ high_deg, data = sub_m.data)
+summary(pm_high_deg.aov)
+
+```
+### the only covariates signficantly associated with average pregnancy PM2.5 are race and highest degree of education 

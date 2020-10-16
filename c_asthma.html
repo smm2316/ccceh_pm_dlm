@@ -569,6 +569,81 @@ t.high_deg</code></pre>
 ## X-squared = 2.8544, df = 6, p-value = 0.8269</code></pre>
 <div id="the-only-covariate-statistically-associated-with-c_asthma-is-smoker-in-house" class="section level3">
 <h3>the only covariate statistically associated with C_ASTHMA is smoker in house</h3>
+<pre class="r"><code>load(&quot;~/RESEARCH/Herbstman/ccceh_pm_dlm/data/pm_data.RDATA&quot;)
+
+sub_m.data = full_join(prenatal_sub, ave.pm25.no2, by = &quot;SID&quot;)
+
+pm_race.aov = aov(ave.pm25.preg ~ race, data = sub_m.data)
+summary(pm_race.aov)</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## race          1   29.8  29.845   6.675 0.0103 *
+## Residuals   287 1283.2   4.471                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 509 observations deleted due to missingness</code></pre>
+<pre class="r"><code>pm_pregdx.aov = aov(ave.pm25.preg ~ asthma_pregdx, data = sub_m.data)
+summary(pm_pregdx.aov)</code></pre>
+<pre><code>##                Df Sum Sq Mean Sq F value Pr(&gt;F)
+## asthma_pregdx   1      1   1.004   0.219   0.64
+## Residuals     286   1310   4.581               
+## 510 observations deleted due to missingness</code></pre>
+<pre class="r"><code>pm_smkr_house.aov = aov(ave.pm25.preg ~ smkr_house, data = sub_m.data)
+summary(pm_smkr_house.aov)</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
+## smkr_house    1    8.9   8.886   1.928  0.166
+## Residuals   282 1299.4   4.608               
+## 514 observations deleted due to missingness</code></pre>
+<pre class="r"><code>pm_smkr_cur.aov = aov(ave.pm25.preg ~ smkr_cur, data = sub_m.data)
+summary(pm_smkr_cur.aov)</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## smkr_cur      1   12.9  12.877   2.853 0.0923 .
+## Residuals   286 1291.0   4.514                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 510 observations deleted due to missingness</code></pre>
+<pre class="r"><code>pm_aff_food.aov = aov(ave.pm25.preg ~ aff_food, data = sub_m.data)
+summary(pm_aff_food.aov)</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
+## aff_food      1   11.5  11.538   2.552  0.111
+## Residuals   285 1288.6   4.521               
+## 511 observations deleted due to missingness</code></pre>
+<pre class="r"><code>pm_aff_stay.aov = aov(ave.pm25.preg ~ aff_stay, data = sub_m.data)
+summary(pm_aff_stay.aov)</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## aff_stay      1   12.4  12.404   2.737 0.0991 .
+## Residuals   287 1300.7   4.532                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 509 observations deleted due to missingness</code></pre>
+<pre class="r"><code>pm_aff_gaselec.aov = aov(ave.pm25.preg ~ aff_gaselec, data = sub_m.data)
+summary(pm_aff_gaselec.aov)</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
+## aff_gaselec   1    8.3   8.309   1.825  0.178
+## Residuals   285 1297.6   4.553               
+## 511 observations deleted due to missingness</code></pre>
+<pre class="r"><code>pm_aff_cloth.aov = aov(ave.pm25.preg ~ aff_cloth, data = sub_m.data)
+summary(pm_aff_cloth.aov)</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
+## aff_cloth     1      6   5.986    1.31  0.253
+## Residuals   285   1303   4.570               
+## 511 observations deleted due to missingness</code></pre>
+<pre class="r"><code>pm_aff_med.aov = aov(ave.pm25.preg ~ aff_med, data = sub_m.data)
+summary(pm_aff_med.aov)</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
+## aff_med       1    2.6   2.556    0.56  0.455
+## Residuals   287 1310.5   4.566               
+## 509 observations deleted due to missingness</code></pre>
+<pre class="r"><code>pm_high_deg.aov = aov(ave.pm25.preg ~ high_deg, data = sub_m.data)
+summary(pm_high_deg.aov)</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## high_deg      6  113.7  18.947   4.955 7.79e-05 ***
+## Residuals   275 1051.6   3.824                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 516 observations deleted due to missingness</code></pre>
+</div>
+<div id="the-only-covariates-signficantly-associated-with-average-pregnancy-pm2.5-are-race-and-highest-degree-of-education" class="section level3">
+<h3>the only covariates signficantly associated with average pregnancy PM2.5 are race and highest degree of education</h3>
 </div>
 
 
